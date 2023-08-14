@@ -43,7 +43,7 @@ const Message = ({ own, message, name, profilePic, time }) => {
 				<Image
 					src={
 						profilePic === ""
-							? "https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+							? `https://api.multiavatar.com/${name}.svg`
 							: profilePic
 					}
 					alt=""

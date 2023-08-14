@@ -94,7 +94,7 @@ export default function Nav() {
 												size={"sm"}
 												src={
 													state.user.profile === ""
-														? "https://avatars.dicebear.com/api/male/username.svg"
+														? `https://api.multiavatar.com/${state.user.name}.svg`
 														: state.user.profile
 												}
 											/>
@@ -106,7 +106,7 @@ export default function Nav() {
 													size={"2xl"}
 													src={
 														state.user.profile === ""
-															? "https://avatars.dicebear.com/api/male/username.svg"
+															? `https://api.multiavatar.com/${state.user.name}.svg`
 															: state.user.profile
 													}
 												/>
