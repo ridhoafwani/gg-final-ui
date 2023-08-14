@@ -5,32 +5,20 @@ import {
 	Button,
 	FormControl,
 	FormLabel,
-	Input,
 	Textarea,
 } from "@chakra-ui/react";
 
 const CommentForm = ({ onSubmit }) => {
-	const [name, setName] = useState("");
 	const [comment, setComment] = useState("");
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		onSubmit({ name, comment });
-		setName("");
+		onSubmit(comment);
 		setComment("");
 	};
 
 	return (
-		<Box as="form" onSubmit={handleSubmit}>
-			<FormControl mb={4}>
-				<FormLabel>Name</FormLabel>
-				<Input
-					type="text"
-					value={name}
-					onChange={(e) => setName(e.target.value)}
-					required
-				/>
-			</FormControl>
+		<Box as="form" onSubmit={handleSubmit} w="100%">
 			<FormControl mb={4}>
 				<FormLabel>Comment</FormLabel>
 				<Textarea
@@ -39,7 +27,13 @@ const CommentForm = ({ onSubmit }) => {
 					required
 				/>
 			</FormControl>
-			<Button type="submit" colorScheme="blue">
+			<Button
+				type="submit"
+				colorScheme="pink"
+				_hover={{
+					bg: "pink.300",
+				}}
+			>
 				Submit Comment
 			</Button>
 		</Box>

@@ -1,33 +1,22 @@
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+/* eslint-disable react/prop-types */
+import { Flex } from "@chakra-ui/react";
 import ProductCard from "./ProductCard";
+import { Link } from "react-router-dom";
 
-export default function ProductList() {
+export default function ProductList({ products }) {
 	return (
-		<Flex
-			my={{ base: "2 ", md: "10" }}
-			mx={{ base: "2 ", md: "10" }}
-			h={{ base: "auto", md: "100vh" }}
-			flexDirection={{ base: "row", md: "column" }}
-			bg={useColorModeValue("white", "gray.800")}
-			maxW={{ base: "full", md: "xs" }}
-			borderWidth="1px"
-			rounded="lg"
-			shadow="lg"
-			overflow="auto" // or "auto" depending on your needs
-			css={{
-				"&::-webkit-scrollbar": {
-					width: "0.4em", // adjust as needed
-				},
-				"&::-webkit-scrollbar-thumb": {
-					backgroundColor: "rgba(0, 0, 0, 0.3)", // adjust as needed
-					borderRadius: "0.4em", // adjust as needed
-				},
-			}}
-		>
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
+		<Flex wrap="wrap" w="100%" maxW="1440px" justifyContent="center">
+			{products.map((product) => (
+				<Link
+					to={product.url}
+					key={product._id}
+					style={{ textDecoration: "none" }}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<ProductCard key={product.id} product={product} />
+				</Link>
+			))}
 		</Flex>
 	);
 }

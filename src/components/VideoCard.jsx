@@ -1,69 +1,29 @@
-import { StarIcon } from "@chakra-ui/icons";
-import {
-	Box,
-	Card,
-	CardBody,
-	Stack,
-	Text,
-	Tag,
-	TagLeftIcon,
-	TagLabel,
-} from "@chakra-ui/react";
+/* eslint-disable react/prop-types */
+import { Box, Image, Badge } from "@chakra-ui/react";
 
-export default function VideoCard() {
+export default function VideoCard({ title, thumbnail }) {
 	return (
-		<Card
-			m="6px"
-			borderRadius="16px"
-			boxShadow="lg"
-			maxWidth="280px"
-			minHeight="420px"
-			backgroundImage="https://i.ytimg.com/vi_webp/nf3EUJT9pjY/movieposter.webp"
-			backgroundSize="cover"
-		>
-			<Box
-				width="100%"
-				height="100%"
-				backgroundColor="rgba(0, 0, 0, 0.6)" // Add a semi-transparent black overlay
-				borderRadius="16px"
-			>
-				<CardBody p="16px" height="100%">
-					<Tag size="md" variant="solid" colorScheme="pink">
-						LIVE
-					</Tag>
+		<Box m="5" maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+			<Image src={thumbnail} alt={title} />
 
-					<Stack
-						display="flex"
-						flexDir="column"
-						justifyContent="flex-end"
-						height="100%"
-						pb="30px"
-					>
-						<Tag
-							size="md"
-							variant="solid"
-							colorScheme="pink"
-							width="fit-content"
-						>
-							Hanya Saat LIVE
-						</Tag>
+			<Box p="6">
+				<Box display="flex" alignItems="baseline">
+					<Badge borderRadius="full" px="2" colorScheme="pink">
+						Video
+					</Badge>
+				</Box>
 
-						<Tag
-							size="lg"
-							variant="solid"
-							colorScheme="green"
-							width="fit-content"
-						>
-							<TagLeftIcon boxSize="12px" as={StarIcon} />
-							<TagLabel>Kupon Spesial</TagLabel>
-						</Tag>
-
-						<Text fontSize="xl" fontWeight="bold" color="white">
-							Gabung Lagi Yuk Bund😮✨shgdjkdshfvjkdshkljashdkjlfhdskljfh
-						</Text>
-					</Stack>
-				</CardBody>
+				<Box
+					mt="1"
+					fontWeight="semibold"
+					as="h4"
+					lineHeight="tight"
+					noOfLines={2}
+					height="3em"
+				>
+					{title}
+				</Box>
 			</Box>
-		</Card>
+		</Box>
 	);
 }

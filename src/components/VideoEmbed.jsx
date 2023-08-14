@@ -1,62 +1,51 @@
-// import { Flex, Box, Text } from "@chakra-ui/react";
+/* eslint-disable react/prop-types */
+import {
+	Flex,
+	Box,
+	Text,
+	Button,
+	useDisclosure,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+} from "@chakra-ui/react";
+import { useRef } from "react";
+import LiveComment from "./LiveComment";
+import CommentForm from "./CommentForm";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-// export default function VideoEmbed() {
-// 	return (
-// 		<Flex
-// 			flexDir="column"
-// 			alignItems="center"
-// 			justifyContent="center"
-// 			my="10"
-// 			p="10px"
-// 			borderRadius="md"
-// 			boxShadow="lg"
-// 			w="100%"
-// 			maxW="1080px"
-// 			h="auto"
-// 			overflow="hidden"
-// 		>
-// 			<Box
-// 				as="iframe"
-// 				src="https://www.youtube.com/embed/wI2vqXsjsIo"
-// 				width="100%"
-// 				sx={{
-// 					aspectRatio: "16/9",
-// 				}}
-// 			/>
+export default function VideoEmbed({ title, url, onSubmit, commentList }) {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const btnRef = useRef(null);
+	const state = useAuthContext();
+	const location = useLocation();
+	const navigate = useNavigate();
 
-// 			<Text>This video Title</Text>
-// 		</Flex>
-// 	);
-// }
-
-import { Flex, Box, Text, Button, useMediaQuery } from "@chakra-ui/react";
-import { useState } from "react";
-
-export default function VideoEmbed() {
-	const [isSmallerThanMd] = useMediaQuery("(max-width: 768px)");
-	const [showLiveComment, setShowLiveComment] = useState(false);
-
-	const toggleLiveComment = () => {
-		setShowLiveComment((prev) => !prev);
+	const handleOnClick = () => {
+		navigate("/signin", { state: { from: location.pathname } });
 	};
-
 	return (
 		<Flex
 			flexDir="column"
 			alignItems="center"
 			justifyContent="center"
-			my={10}
 			p="10px"
 			borderRadius="md"
-			boxShadow="lg"
+			boxShadow="base"
 			w="100%"
-			maxW="1080px"
-			h="auto"
+			maxW="1440px"
 			overflow="hidden"
+			my="10"
 		>
 			<Box
 				as="iframe"
-				src="https://www.youtube.com/embed/wI2vqXsjsIo"
+				src={url}
 				width="100%"
 				sx={{
 					aspectRatio: "16/9",
@@ -64,20 +53,51 @@ export default function VideoEmbed() {
 			/>
 
 			<Text fontSize="xl" fontWeight="bold" mt={4}>
-				This video Title
+				{title}
 			</Text>
 
-			{isSmallerThanMd && (
-				<Button mt={4} colorScheme="blue" onClick={toggleLiveComment}>
-					{showLiveComment ? "Hide Live Comment" : "Show Live Comment"}
-				</Button>
-			)}
+			<Button
+				my={3}
+				ref={btnRef}
+				onClick={onOpen}
+				colorScheme="pink"
+				_hover={{
+					bg: "pink.300",
+				}}
+			>
+				Show Comment
+			</Button>
 
-			{showLiveComment && !isSmallerThanMd && (
-				<Text fontSize="lg" mt={4}>
-					Live Comment section goes here...
-				</Text>
-			)}
+			<Modal
+				onClose={onClose}
+				finalFocusRef={btnRef}
+				isOpen={isOpen}
+				scrollBehavior="inside"
+			>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Comment</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
+						<LiveComment commentList={commentList} />
+					</ModalBody>
+					<ModalFooter justifyContent="flex-start">
+						{state.user ? (
+							<CommentForm onSubmit={onSubmit} />
+						) : (
+							<Button
+								_hover={{
+									bg: "pink.300",
+								}}
+								colorScheme="pink"
+								onClick={handleOnClick}
+							>
+								Login to Post Comment
+							</Button>
+						)}
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</Flex>
 	);
 }
